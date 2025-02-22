@@ -38,11 +38,11 @@ ENV S6_KEEP_ENV=1 \
     LC_ALL="C.UTF-8" \
     RCLONE_CONFIG=/app/rclone/rclone.conf \
     KOPIA_VERSION=${KOPIA_VERSION} \
-	KOPIA_CONFIG_PATH=/app/config/repository.config \
-	KOPIA_LOG_DIR=/app/logs \
-	KOPIA_CACHE_DIRECTORY=/app/cache \
-	KOPIA_PERSIST_CREDENTIALS_ON_CONNECT=false \
-	KOPIA_CHECK_FOR_UPDATES=false
+    KOPIA_CONFIG_PATH=/app/config/repository.config \
+    KOPIA_LOG_DIR=/app/logs \
+    KOPIA_CACHE_DIRECTORY=/app/cache \
+    KOPIA_PERSIST_CREDENTIALS_ON_CONNECT=false \
+    KOPIA_CHECK_FOR_UPDATES=false
 
 WORKDIR "/app/"
 
