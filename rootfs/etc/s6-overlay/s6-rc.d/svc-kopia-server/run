@@ -6,24 +6,7 @@ main() {
     # This will prepend service name to all output from here
     exec > >(while read -r line; do echo "[svc-kopia-server] ${line}"; done) 2>&1
 
-    local flags=('--address' '0.0.0.0:51515')
-
-    # Add flags for server username and password
-    flags+=('--server-username' "${KOPIA_SERVER_USERNAME:?}" '--server-password' "${KOPIA_SERVER_PASSWORD:?}")
-
-    if [ "${KOPIA_DISABLE_CSRF_TOKEN_CHECKS:-true}" = "true" ]; then
-        echo "WARNING: CSRF token checks are disabled. This is potentially insecure." >&2
-        flags+=('--disable-csrf-token-checks')
-    fi
-
-    if [ -n "${KOPIA_TLS_CERT_FILE}" ] && [ -n "${KOPIA_TLS_KEY_FILE}" ]; then
-        flags+=('--tls-cert-file' "${KOPIA_TLS_CERT_FILE}")
-        flags+=('--tls-key-file' "${KOPIA_TLS_KEY_FILE}")
-    else
-        echo "WARNING: TLS is disabled. This is potentially insecure." >&2
-        flags+=('--insecure')
-    fi
-
-    exec /usr/local/bin/kopia server start "${flags[@]}"
+    s6-envdir /run/secrets_normalized /usr/local/bin/kopia-server-wrapper
 }
-s6-envdir /run/secrets_normalized main
+
+ main
