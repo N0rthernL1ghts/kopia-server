@@ -4,18 +4,20 @@ ARG KOPIA_VERSION="0.19.0"
 
 FROM kopia/kopia:${KOPIA_VERSION} AS kopia
 FROM rclone/rclone:sha-0ccf650 AS rclone
+FROM ghcr.io/n0rthernl1ghts/s6-rootfs:3.1.6.2 AS s6-rootfs
 FROM scratch AS rootfs
 
 COPY ["./rootfs/", "/"]
 COPY --from=kopia ["/bin/kopia", "/usr/local/bin/kopia"]
 COPY --from=rclone ["/usr/local/bin/rclone", "/usr/local/bin/rclone"]
+COPY --from=s6-rootfs ["/", "/"]
 
 
 
-FROM lscr.io/linuxserver/baseimage-alpine:3.21
+FROM alpine:3.21
 
 RUN set -eux \
-    && apk add --no-cache ca-certificates curl fuse3 tzdata
+    && apk add --no-cache bash ca-certificates curl fuse3 tzdata
 
 COPY --from=rootfs ["/", "/"]
 
@@ -42,3 +44,5 @@ ENV S6_KEEP_ENV=1 \
 WORKDIR "/app/"
 
 EXPOSE 51515/TCP
+
+ENTRYPOINT ["/init"]
