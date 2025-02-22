@@ -1,0 +1,35 @@
+secrets:
+  kopia_server_password:
+    file: ./secrets/kopia_server_password.txt
+
+networks:
+  default:
+
+services:
+  server:
+    image: ghcr.io/n0rthernl1ghts/kopia-server:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+    devices:
+      - /dev/fuse:/dev/fuse:rwm
+    environment:
+      TZ: Europe/Berlin
+      KOPIA_SERVER_USERNAME: "admin"
+      # KOPIA_DISABLE_CSRF_TOKEN_CHECKS: "true"
+      # KOPIA_TLS_CERT_FILE: "/config/ssl-certs/fullchain.pem"
+      # KOPIA_TLS_KEY_FILE: "/config/ssl-certs/privkey.pem"
+    secrets:
+      - kopia_server_password
+    volumes:
+      - /mnt/kopia:/tmp:shared
+      - ./data/kopia-server/app:/app
+    ports:
+      - 51515:51515
+    networks:
+      default:
