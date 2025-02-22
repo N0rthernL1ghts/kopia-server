@@ -12,6 +12,9 @@ COPY --from=kopia ["/bin/kopia", "/usr/local/bin/kopia"]
 COPY --from=rclone ["/usr/local/bin/rclone", "/usr/local/bin/rclone"]
 COPY --from=s6-rootfs ["/", "/"]
 
+# Install init-docker-secrets service
+COPY --from=ghcr.io/n0rthernl1ghts/docker-env-secrets:latest ["/", "/"]
+
 
 
 FROM alpine:3.21

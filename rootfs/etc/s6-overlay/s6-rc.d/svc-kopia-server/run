@@ -26,4 +26,4 @@ main() {
 
     exec /usr/local/bin/kopia server start "${flags[@]}"
 }
-main
+s6-envdir /run/secrets_normalized main
