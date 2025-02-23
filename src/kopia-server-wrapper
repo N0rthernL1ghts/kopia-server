@@ -12,8 +12,14 @@ main() {
     fi
 
     if [ -n "${KOPIA_TLS_CERT_FILE}" ] && [ -n "${KOPIA_TLS_KEY_FILE}" ]; then
+        echo "Detected TLS certificate and key files."
         flags+=('--tls-cert-file' "${KOPIA_TLS_CERT_FILE}")
         flags+=('--tls-key-file' "${KOPIA_TLS_KEY_FILE}")
+    elif [ -n "${KOPIA_TLS_CERT}" ] && [ -n "${KOPIA_TLS_KEY}" ]; then
+        echo "Detected TLS certificate and key contents in environment variables."
+
+        flags+=('--tls-cert-file' "/run/secrets_normalized/KOPIA_TLS_CERT")
+        flags+=('--tls-key-file' "/run/secrets_normalized/KOPIA_TLS_KEY")
     else
         echo "WARNING: TLS is disabled. This is potentially insecure." >&2
         flags+=('--insecure')

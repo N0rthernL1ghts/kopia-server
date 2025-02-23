@@ -1,6 +1,10 @@
 secrets:
   kopia_server_password:
     file: ./secrets/kopia_server_password.txt
+#  kopia_tls_cert:
+#    file: ./secrets/kopia_tls_cert_fullchain.pem
+#  kopia_tls_key:
+#    file: ./secrets/kopia_tls_key_privkey.pem
 
 networks:
   default:
@@ -26,6 +30,8 @@ services:
       # KOPIA_TLS_KEY_FILE: "/config/ssl-certs/privkey.pem"
     secrets:
       - kopia_server_password
+      # - kopia_tls_cert
+      # - kopia_tls_key
     volumes:
       - /mnt/kopia:/tmp:shared
       - ./data/kopia-server/app:/app
