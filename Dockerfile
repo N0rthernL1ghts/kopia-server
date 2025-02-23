@@ -7,8 +7,8 @@ FROM rclone/rclone:sha-0ccf650 AS rclone
 FROM ghcr.io/n0rthernl1ghts/s6-rootfs:3.1.6.2 AS s6-rootfs
 FROM scratch AS rootfs
 
+COPY ["./src/", "/usr/local/bin/"]
 COPY ["./rootfs/", "/"]
-COPY ["./src/kopia-server-wrapper", "/usr/local/bin/kopia-server-wrapper"]
 COPY --from=kopia ["/bin/kopia", "/usr/local/bin/kopia"]
 COPY --from=rclone ["/usr/local/bin/rclone", "/usr/local/bin/rclone"]
 COPY --from=s6-rootfs ["/", "/"]

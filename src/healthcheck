@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+probe_url() {
+    local url="${1:?}"
+    local username="${2:?}"
+    local password="${3:?}"
+
+    curl --fail --silent --show-error --insecure --output /dev/null --user "${username}:${password}" "${url}"
+}
+
+main() {
+    set -euo pipefail
+
+    local username="${KOPIA_SERVER_USERNAME:?}"
+    local password="${KOPIA_SERVER_PASSWORD:?}"
+
+    if [ -n "${KOPIA_TLS_CERT_FILE:-}" ] || [ -n "${KOPIA_TLS_CERT:-}" ]; then
+        probe_url "https://localhost:51515/" "${username}" "${password}"
+        return
+    fi
+
+    probe_url "http://localhost:51515/" "${username}" "${password}"
+}
+export -f main probe_url
+
+/command/s6-envdir /run/secrets_normalized bash -c main
