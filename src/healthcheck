@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/command/with-contenv bash
 
 probe_url() {
     local url="${1:?}"
@@ -21,6 +21,5 @@ main() {
 
     probe_url "http://localhost:51515/" "${username}" "${password}"
 }
-export -f main probe_url
 
-/command/s6-envdir /run/secrets_normalized bash -c main
+main

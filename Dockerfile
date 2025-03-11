@@ -33,7 +33,7 @@ LABEL maintainer="Aleksandar Puharic <aleksandar@puharic.com>" \
       org.opencontainers.image.licenses="Apache 2.0" \
       org.opencontainers.image.version="${KOPIA_VERSION}"
 
-ENV S6_KEEP_ENV=1 \
+ENV S6_KEEP_ENV=0 \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=1 \
     TERM="xterm-256color" \
     LC_ALL="C.UTF-8" \
