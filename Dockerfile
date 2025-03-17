@@ -4,7 +4,7 @@ ARG KOPIA_VERSION="0.19.0"
 
 FROM kopia/kopia:${KOPIA_VERSION} AS kopia
 FROM rclone/rclone:sha-0ccf650 AS rclone
-FROM ghcr.io/n0rthernl1ghts/s6-rootfs:3.1.6.2 AS s6-rootfs
+FROM ghcr.io/n0rthernl1ghts/s6-rootfs:3.2.0.2 AS s6-rootfs
 FROM scratch AS rootfs
 
 COPY ["./src/", "/usr/local/bin/"]
