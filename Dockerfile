@@ -18,7 +18,7 @@ COPY --from=ghcr.io/n0rthernl1ghts/docker-env-secrets:latest ["/", "/"]
 
 
 
-FROM alpine:3.22
+FROM alpine:3.23
 
 RUN set -eux \
     && apk add --no-cache bash ca-certificates curl fuse3 tzdata
